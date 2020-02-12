@@ -27,11 +27,11 @@ public class Main {
     private static final Path createdInstanceIdsStore =
             Paths.get(INSTANCE_IDS_FILE_NAME);
 
-    static final Set<String> DICTIONARY = new HashSet<>();
+    static final Set<String> hs = new HashSet<>();
 
     static {
-        DICTIONARY.add("peanut");
-        DICTIONARY.add("butter");
+        hs.add("peanut");
+        hs.add("butter");
     }
 
     private static final Logger LOG = Logger.getLogger(Main.class.getName());
@@ -43,7 +43,7 @@ public class Main {
             {"The Hobbit", "JRR Tolkien", "fantasy", "18.59", "The Hobbit follows the quest of home-loving hobbit Bilbo Baggins to win a share of the treasure guarded by the dragon, Smaug."}
     };
 
-    // find smallest array of matching degree -- degree defined as most frequently occuring integer in int[]
+    // find smallest array of matching degree -- degree defined as most frequently occurring integer in int[]
 
     // find palindrome substring within a string
 
@@ -51,7 +51,34 @@ public class Main {
 
     // write code to re-order a linked list, moving the last element to the 2nd element until there are only 2 elements
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int target = Integer.parseInt(br.readLine());
+
+        Node root = null;
+        if (target < 1) {
+            System.out.println("NIL");
+        } else {
+            String data = br.readLine();
+            StringTokenizer stringTokenizer = new StringTokenizer(data);
+            List<String> numbers = new ArrayList<>();
+            root = new Node(stringTokenizer.nextToken());
+            Node node = root;
+            while (stringTokenizer.hasMoreElements()) {
+                node.next = new Node(stringTokenizer.nextToken());
+                node = node.next;
+            }
+
+            Node targetNode = nthToLast(root, target - 1);
+            if (targetNode == null) {
+                System.out.println("NIL");
+            } else {
+                System.out.println(targetNode.strData.trim());
+            }
+        }
+
+        if (true) System.exit(0);
+
 
         LOGGER.info(dateFormat.format(new Date()));
 
@@ -1648,24 +1675,28 @@ k=2;
     }
 
     public int fibonacci(int i) {
-        if (i == 1) {
-            return 0;
-        }
-
-        if (i == 2) {
-            return 1;
+        if (i <= 1) {
+            return i;
         }
 
         return (fibonacci(i - 1) + fibonacci(i - 2));
     }
 
+    private int fibonacciTailRecursive(int n, int accumulator) {
+        if (n == 0) {
+            return accumulator;
+        }
+
+        return fibonacciTailRecursive(n - 1, n * accumulator);
+    }
+
+    public int fibonacciTailRecursive(int n) {
+        return fibonacciTailRecursive(n, 1);
+    }
+
     public int fibonacciIteratively(int i) {
         if (i == 1) {
             return 0;
-        }
-
-        if (i == 2) {
-            return 1;
         }
 
         int fib0 = 0;
@@ -1678,6 +1709,19 @@ k=2;
         }
 
         return fib;
+    }
+
+    public int fibonacciDynamicProgramming(int n) {
+        int[] fibs = new int[n + 2]; // because we need to preload arr with at least 2 values
+
+        fibs[0] = 0;
+        fibs[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            fibs[i] = fibs[i - 1] + fibs[i - 2];
+        }
+
+        return fibs[n];
     }
 
     public List<Integer> serialize(Node root) {
@@ -1887,7 +1931,7 @@ k=2;
         for (int i = 0; i < source.length(); i++) {
             String left = source.substring(0, i);
             String right = source.substring(i, source.length());
-            if (DICTIONARY.contains(left) && DICTIONARY.contains(right)) {
+            if (hs.contains(left) && hs.contains(right)) {
                 return left + " " + right;
             }
         }
@@ -2017,8 +2061,8 @@ k=2;
     }
 
     public static Node nthToLast(Node head, int n) {
-        if (head == null || n < 1) {
-            return head;
+        if (head == null || n < 0) {
+            return null;
         }
 
         Node nthToLast = head;
@@ -2103,6 +2147,7 @@ k=2;
 
     public static class Node {
         public int data;
+        public String strData;
         public Node left;
         public Node right;
         public Node next;
@@ -2119,6 +2164,7 @@ k=2;
         public Node(int data) {
             this.data = data;
         }
+        public Node(String strData) { this.strData = strData; }
 
         @Override
         public boolean equals(Object o) {

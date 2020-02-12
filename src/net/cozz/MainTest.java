@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -673,4 +674,25 @@ public class MainTest {
         assertEquals("Narni", main.removeDups(narnia));
     }
 
+    @Test
+    public void testReconstruction() {
+        Tree tree = new Tree(null);
+        char[] in = new char[]{ 'D', 'B', 'E', 'A', 'F', 'C' };
+        char[] pre = new char[] { 'A', 'B', 'D', 'E', 'C', 'F' };
+
+        Tree.CharNode root = tree.reconstruct(in, pre);
+
+        tree.inOrder(root);
+    }
+
+    @Test
+    public void testReconstruction2() {
+        Tree tree = new Tree(null);
+        char[] in = new char[]{ 'A', 'B', 'C', 'D' };
+        char[] pre = new char[] { 'D', 'C', 'B', 'A' };
+
+        Tree.CharNode root = tree.reconstruct(in, pre);
+
+        tree.inOrder(root);
+    }
 }

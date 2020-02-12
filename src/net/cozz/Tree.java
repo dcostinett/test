@@ -1,5 +1,9 @@
 package net.cozz;
 
+import java.lang.invoke.StringConcatFactory;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -176,6 +180,33 @@ public class Tree {
     }
 
 
+    public void preOrder(CharNode root) {
+        if (root != null) {
+            root.print();
+            preOrder(root.left);
+            preOrder(root.right);
+        }
+    }
+
+
+    public void inOrder(CharNode root) {
+        if (root != null) {
+            inOrder(root.left);
+            root.print();
+            inOrder(root.right);
+        }
+    }
+
+
+    public void postOrder(CharNode root) {
+        if (root != null) {
+            postOrder(root.left);
+            postOrder(root.right);
+            root.print();
+        }
+    }
+
+
     public void displayTree() {         // row by row traversal
         Stack<Node> globalStack = new Stack<Node>();
         globalStack.push(root);
@@ -242,6 +273,53 @@ public class Tree {
         return maxDepth(root) - minDepth(root) <= 1;
     }
 
+    public CharNode reconstruct(char[] inOrder, char[] preOrder) {
+        return reconstruct(inOrder, preOrder, 0, inOrder.length - 1);
+    }
+
+    int preOrderIndex = 0;
+    private CharNode reconstruct(char[] inOrder, char[] preOrder, int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return null;
+        }
+
+        CharNode node = new CharNode(preOrder[preOrderIndex++]);
+
+        if (startIndex == endIndex) {
+            return node;
+        }
+
+        int inOrderIndex = find(inOrder, node.data);
+
+        node.left = reconstruct(inOrder, preOrder, startIndex, inOrderIndex - 1);
+        node.right = reconstruct(inOrder, preOrder, inOrderIndex + 1, endIndex);
+
+        return node;
+    }
+
+    private int find(char[] data, char target) {
+        return new String(data).indexOf(target);
+    }
+
+    public void breadthFirstTraversal(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            node.print();
+            queue.offer(node.left); // https://softwareengineering.stackexchange.com/questions/190267/what-is-the-difference-of-the-add-and-offer-methods-of-javas-priorityqueue
+            queue.offer(node.right);
+        }
+    }
+
+    public void depthFirstTraversal(Node root) {
+        inOrder(root);
+    }
+
     private static Node loadTree(int[] arr, int start, int end) {
         if (end < start) {
             return null;
@@ -286,6 +364,45 @@ public class Tree {
 
         public void print() {
             LOGGER.info(String.format("{%d}", data));
+        }
+    }
+
+    public static class CharNode {
+        char data;
+        CharNode left;
+        CharNode right;
+
+
+        public CharNode(char data) {
+            this.data = data;
+        }
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Node)) return false;
+
+            Node node = (Node) o;
+
+            if (data != node.data) return false;
+
+            return true;
+        }
+
+
+        public void print() {
+            System.out.print(data + " ");
+        }
+    }
+
+    public static class Graph {
+        char data;
+        List<Graph> adjacent;
+
+        Graph(char data) {
+            this.data = data;
+            adjacent = new LinkedList<>();
         }
     }
 }
