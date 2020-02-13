@@ -1598,12 +1598,15 @@ given starting code:
 
 
     fun fibonacci(i: Int): Int {
-        if (i == 1) {
-            return 0
+        return when (i) {
+            1 -> {
+                0
+            }
+            2 -> {
+                1
+            }
+            else -> fibonacci(i - 1) + fibonacci(i - 2)
         }
-        return if (i == 2) {
-            1
-        } else fibonacci(i - 1) + fibonacci(i - 2)
     }
 
     private fun fibonacciTailRecursive(n: Int, accumulator: Int): Int {
@@ -1811,7 +1814,6 @@ given starting code:
     class TreeNode(var data: Int) {
         var left: TreeNode? = null
         var right: TreeNode? = null
-
     }
 
     fun maximizeProduct(arr: IntArray): Int {
@@ -1848,7 +1850,7 @@ given starting code:
 
         for (i in 1..change) {
             coins.forEach {
-                if (it <= i) { // if the coins is less than the change amount
+                if (it <= i) { // if the coin is less than the change amount
                     val tmp = candidates[i - it]
                     if (tmp != Integer.MAX_VALUE && tmp + 1 < candidates[i]) {
                         candidates[i] = tmp + 1 // we're adding to the coin count each time through the loop

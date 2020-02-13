@@ -5,8 +5,6 @@ import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Test
-import java.util.regex.Matcher
-import kotlin.system.measureTimeMillis
 
 internal class KotlinMainTest {
 
@@ -249,4 +247,29 @@ internal class KotlinMainTest {
     fun `test fibonacci tabulated 2`() {
         assertThat(KotlinMain().fiboTabulated(10), CoreMatchers.`is`(55))
     }
+
+    @Test
+    fun `test nested recursion`() {
+        println(KotlinTree().nestedRecursionExample(95))
+    }
+
+
+    @Test
+    fun testReconstruction() {
+        val tree = KotlinTree()
+        val `in` = charArrayOf('D', 'B', 'E', 'A', 'F', 'C')
+        val pre = charArrayOf('A', 'B', 'D', 'E', 'C', 'F')
+        val root = tree.reconstruct(`in`, pre)
+        tree.inOrder(root)
+    }
+
+    @Test
+    fun testReconstruction2() {
+        val tree = KotlinTree()
+        val `in` = charArrayOf('A', 'B', 'C', 'D')
+        val pre = charArrayOf('D', 'C', 'B', 'A')
+        val root = tree.reconstruct(`in`, pre)
+        tree.inOrder(root)
+    }
+
 }
