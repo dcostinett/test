@@ -253,7 +253,6 @@ internal class KotlinMainTest {
         println(KotlinTree().nestedRecursionExample(95))
     }
 
-
     @Test
     fun testReconstruction() {
         val tree = KotlinTree()
