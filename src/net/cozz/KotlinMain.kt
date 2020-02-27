@@ -636,6 +636,37 @@ practice 1 answer:
         return maxLength // return length of LPS
     }
 
+    // Google's fruit into baskets question -- maximize the count
+    fun longestSubstring(tree: IntArray) : Int {
+        if (tree.isEmpty()) {
+            return 0
+        }
+
+        var count = 1
+        val map = mutableMapOf<Int, Int>()
+
+        var i = 0
+        var j = 0
+        while (j < tree.size) {
+            if (map.size <= 2) {
+                map.put(tree[j], j++)
+            }
+
+            if (map.size > 2) {
+                var min = tree.size - 1
+                map.values.forEach {
+                    min = Math.min(min, it)
+                }
+                i = min + 1
+                map.remove(tree[min])
+            }
+
+            count = Math.max(count, j - i)
+        }
+
+        return count
+    }
+
     // https://www.programcreek.com/2013/12/leetcode-solution-of-longest-palindromic-substring-java/
     fun longestPalindromeSubstr(str: String?): String? {
         if (str == null || str.length == 0) {
@@ -1844,22 +1875,34 @@ given starting code:
         val candidates = IntArray(change + 1)
 
         // initialize table:
-        candidates.fill(Integer.MAX_VALUE)
+        candidates.fill(Integer.MAX_VALUE) // can use change + 1
         // change of 0 is always 0
         candidates[0] = 0
 
         for (i in 1..change) {
             coins.forEach {
                 if (it <= i) { // if the coin is less than the change amount
-                    val tmp = candidates[i - it]
-                    if (tmp != Integer.MAX_VALUE && tmp + 1 < candidates[i]) {
-                        candidates[i] = tmp + 1 // we're adding to the coin count each time through the loop
-                    }
+                    candidates[i] = Math.min(candidates[i], 1 + candidates[i - it])
                 }
             }
         }
 
         return candidates[change]
+    }
+
+    fun minimizeStickCost(sticks: IntArray): Int {
+        var accumulator = 0;
+
+        val minHeap = PriorityQueue<Int>()
+        minHeap.addAll(sticks.toList())
+
+        while (minHeap.size > 1) {
+            val sum = minHeap.remove() + minHeap.remove()
+            accumulator += sum
+            minHeap.add(sum)
+        }
+
+        return accumulator
     }
 }
 

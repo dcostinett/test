@@ -1,10 +1,12 @@
 package net.cozz
 
 import junit.framework.Assert.assertTrue
+import net.cozz.hackerrank.ArrayDSChallenge
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Test
+
 
 internal class KotlinMainTest {
 
@@ -271,4 +273,108 @@ internal class KotlinMainTest {
         tree.inOrder(root)
     }
 
+    @Test
+    fun `stick cost test 1`() {
+        val result = KotlinMain().minimizeStickCost(intArrayOf(2, 4, 3))
+        assertThat(result, CoreMatchers.equalTo(14))
+    }
+
+    @Test
+    fun `stick cost test 2`() {
+        val result = KotlinMain().minimizeStickCost(intArrayOf(1,8,3,5))
+        assertThat(result, CoreMatchers.equalTo(30))
+    }
+
+    @Test
+    fun `countIslandsTest 1`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 0, 0, 0),
+                intArrayOf(0, 1, 0, 0, 1),
+                intArrayOf(1, 0, 0, 1, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 1, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslands(input), CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `countIslandsTest 2`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 0, 0, 0),
+                intArrayOf(1, 1, 0, 0, 1),
+                intArrayOf(0, 0, 0, 1, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 0, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslands(input), CoreMatchers.equalTo(4))
+    }
+
+    @Test
+    fun `countIslandsTest 3`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 1, 0, 0),
+                intArrayOf(1, 1, 1, 1, 1),
+                intArrayOf(0, 0, 0, 1, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 0, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslands(input), CoreMatchers.equalTo(3))
+    }
+
+    @Test
+    fun `countIslandsTest BF`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 0, 0, 0),
+                intArrayOf(1, 1, 0, 0, 1),
+                intArrayOf(0, 0, 0, 1, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 0, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(4))
+    }
+
+    @Test
+    fun `countIslandsTest BF2`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 0, 0, 0),
+                intArrayOf(1, 1, 0, 0, 1),
+                intArrayOf(0, 0, 1, 1, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 0, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(3))
+    }
+
+    @Test
+    fun `countIslandsTest BF3`() {
+        val input = arrayOf(
+                intArrayOf(1, 1, 0, 0, 0),
+                intArrayOf(1, 1, 0, 0, 1),
+                intArrayOf(0, 0, 1, 0, 1),
+                intArrayOf(0, 0, 0, 0, 0),
+                intArrayOf(1, 0, 0, 0, 1))
+
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(4))
+    }
+
+    @Test
+    fun `letterCombinationsTest 1`() {
+        assertThat(DigitMappings().digitMapping("23"), CoreMatchers.equalTo(
+                listOf("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")))
+    }
+
+    @Test
+    fun `longestSubstring test 1`() {
+        assertThat(KotlinMain().longestSubstring(intArrayOf(1, 2, 1)), CoreMatchers.equalTo(3))
+    }
+
+    @Test
+    fun `longestSubstring test 2`() {
+        assertThat(KotlinMain().longestSubstring(intArrayOf(0, 1, 2, 2)), CoreMatchers.equalTo(3))
+    }
+
+    @Test
+    fun `longestSubstring test 3`() {
+        assertThat(KotlinMain().longestSubstring(intArrayOf(1, 2, 3, 2, 2)), CoreMatchers.equalTo(4))
+    }
 }
