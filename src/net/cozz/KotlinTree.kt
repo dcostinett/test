@@ -306,6 +306,65 @@ class KotlinTree {
         return nestedRecursionExample(nestedRecursionExample(n + 11))
     }
 
+    fun diameterOfBinaryTree(root: Node) : Int {
+        var count = 0
+
+        val stack: Stack<Node> = Stack()
+        val map: MutableMap<Node, Int> = mutableMapOf()
+
+        stack.push(root)
+        while (stack.isNotEmpty()) {
+            val node = stack.peek()
+            val left = node.left
+            val right = node.right
+            if (left != null && !map.containsKey(left)) {
+                stack.push(left)
+            } else if (right != null && !map.containsKey(right)) {
+                stack.push(right)
+            } else {
+                // we're at the end of a branch
+                val tail = stack.pop()
+                val leftCount = map[tail.left] ?: 0
+                val rightCount = map[tail.right] ?: 0
+                map.put(tail, maxOf(leftCount, rightCount) + 1)
+                count = maxOf(count, leftCount + rightCount)
+            }
+        }
+
+        return count
+    }
+
+    fun lowestCommonAncestorRecursive(root: Node, node1: Node, node2: Node) : Node {
+        return when {
+            node1.data > root.data && node2.data > root.data -> {
+                // go right
+                lowestCommonAncestorRecursive(root.right!!, node1, node2) // !! safe since we know both children are >
+            }
+            node1.data < root.data && node2.data < root.data -> {
+                // go left, both children in left tree
+                lowestCommonAncestorRecursive(root.left!!, node1, node2)
+            }
+            else -> {
+                // root is between node1 & node2
+                root
+            }
+        }
+    }
+
+    fun lowestCommonAncestorIterative(root: Node, node1: Node, node2: Node) : Node? {
+        var lca : Node? = root
+        while (lca != null) {
+            lca = if (node1.data < lca.data && node2.data < lca.data) {
+                lca.left
+            } else if (node1.data > lca.data && node2.data > lca.data) {
+                lca.right
+            } else {
+                return lca
+            }
+        }
+
+        return null
+    }
 
     class Node(var data: Int) {
         var left: Node? = null

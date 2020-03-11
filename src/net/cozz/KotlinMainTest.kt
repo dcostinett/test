@@ -377,4 +377,41 @@ internal class KotlinMainTest {
     fun `longestSubstring test 3`() {
         assertThat(KotlinMain().longestSubstring(intArrayOf(1, 2, 3, 2, 2)), CoreMatchers.equalTo(4))
     }
+
+    @Test
+    fun `calculate rain water test 1`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        assertThat(KotlinMain().rainWaterTrappingDynamic(arr), CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `calculate rain water test 2`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,4,3,1,3,1)
+        assertThat(KotlinMain().rainWaterTrappingDynamic(arr), CoreMatchers.equalTo(7))
+    }
+
+    @Test
+    fun `calculate rain water test 3`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1,3)
+        assertThat(KotlinMain().rainWaterTrappingDynamic(arr), CoreMatchers.equalTo(11))
+    }
+
+    @Test
+    fun `calculate rain water stack test 1`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        val result = KotlinMain().rainWaterStackBased(arr)
+        assertThat(result, CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `calculate rain water stack test 2`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,4,3,1,3,1)
+        assertThat(KotlinMain().rainWaterStackBased(arr), CoreMatchers.equalTo(7))
+    }
+
+    @Test
+    fun `calculate rain water stack test 3`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1,3)
+        assertThat(KotlinMain().rainWaterStackBased(arr), CoreMatchers.equalTo(11))
+    }
 }

@@ -14,7 +14,6 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Logger
-import javax.print.attribute.IntegerSyntax
 
 const val SCHEDULE_DATE_FORMAT_FULL = "E, MMMM dd 'at' hh:mm aa"
 private const val INSTANCE_IDS_FILE_NAME = "test"
@@ -538,6 +537,7 @@ practice 1 answer:
     fun isPairSummingToN(sortedArray: IntArray, target: Int): Boolean {
         var li = 0
         var hi = sortedArray.size - 1
+        sortedArray.sort()
         var found = false
         while (!found && li < hi) {
             when {
@@ -720,6 +720,48 @@ practice 1 answer:
             endIdx++
         }
         return s.substring(beginIdx + 1, endIdx)
+    }
+
+    fun rainWaterTrappingDynamic(heights: IntArray): Int {
+        var volume = 0
+        val left = IntArray(heights.size + 1)
+        val right = IntArray(heights.size + 1)
+
+        left[0] = heights[0]
+        for (i in 1 until heights.size) {
+            left[i] = maxOf(heights[i], left[i -1])
+        }
+
+        right[heights.size - 1] = heights[heights.size - 1]
+        for (i in heights.size - 2 downTo 0) { // downTo is inclusive, like ..
+            right[i] = maxOf(heights[i], right[i + 1])
+        }
+
+        for (i in 1 until heights.size) { // until is exclusive, .. is inclusive
+            volume += minOf(left[i], right[i]) - heights[i]
+        }
+
+        return volume
+    }
+
+    fun rainWaterStackBased(heights: IntArray): Int {
+        var volume = 0
+
+        val stack = Stack<Int>()
+        heights.forEachIndexed { index, _ -> // forEachIndexed could be for (index in 0 until heights.size)
+            stack.push(index)
+            while (stack.isNotEmpty() && heights[index] > heights[stack.peek()]) {
+                val top = stack.pop()
+                if (stack.isEmpty()) {
+                    break
+                }
+                val distance = index - stack.peek() - 1 // distance between posts
+                val bound = minOf(heights[index], heights[stack.peek()]) - heights[top]
+                volume += distance * bound
+            }
+        }
+
+        return volume
     }
 
     private fun doFoodTest() {}
