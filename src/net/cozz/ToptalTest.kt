@@ -36,6 +36,7 @@ class ToptalTest {
     fun `test dp approach 3`() {
         val input = intArrayOf(2, 3, 5, 6)
 
-        Toptal().printCoinCombos(input, 10)
+        val result = Toptal().printCoinCombos(input, 10)
+        print(result)
     }
 }

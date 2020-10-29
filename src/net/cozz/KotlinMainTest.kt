@@ -414,4 +414,44 @@ internal class KotlinMainTest {
         val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1,3)
         assertThat(KotlinMain().rainWaterStackBased(arr), CoreMatchers.equalTo(11))
     }
+
+    @Test
+    fun `calculate rain water iterative test 1`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        val result = KotlinMain().rainWaterTrappingIterative(arr)
+        assertThat(result, CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `calculate rain water iterative test 2`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,4,3,1,3,1)
+        assertThat(KotlinMain().rainWaterTrappingIterative(arr), CoreMatchers.equalTo(7))
+    }
+
+    @Test
+    fun `calculate rain water iterative test 3`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1,3)
+        assertThat(KotlinMain().rainWaterTrappingIterative(arr), CoreMatchers.equalTo(11))
+    }
+
+    @Test
+    fun `mergeSortTest 1`() {
+        val ll1 = KotlinMain.SinglyLinkedListNode(1)
+        val n2 = KotlinMain.SinglyLinkedListNode(2)
+        n2.next = KotlinMain.SinglyLinkedListNode(3)
+        ll1.next = n2
+
+        val ll2 = KotlinMain.SinglyLinkedListNode(3)
+        ll2.next = KotlinMain.SinglyLinkedListNode(4)
+
+        var merged = KotlinMain().mergeSortLinkedLists(ll1, ll2)
+
+        while (merged != null) {
+            print("${merged.data} ")
+            merged = merged.next
+        }
+        println()
+    }
+
+
 }

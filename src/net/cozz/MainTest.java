@@ -695,4 +695,19 @@ public class MainTest {
 
         tree.inOrder(root);
     }
+
+    @Test
+    public void testMergeSort1() {
+        Main.SinglyLinkedListNode ll1 = new Main.SinglyLinkedListNode(1);
+        Main.SinglyLinkedListNode n2 = new Main.SinglyLinkedListNode(2);
+        n2.next = new Main.SinglyLinkedListNode(3);
+        ll1.next = n2;
+
+        Main.SinglyLinkedListNode ll2 = new Main.SinglyLinkedListNode(3);
+        ll2.next = new Main.SinglyLinkedListNode(4);
+
+        Main.SinglyLinkedListNode merged = new Main().mergeLists(ll1, ll2);
+
+        System.out.println(merged);
+    }
 }

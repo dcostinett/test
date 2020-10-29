@@ -14,6 +14,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Logger
+import javax.swing.Spring
 
 const val SCHEDULE_DATE_FORMAT_FULL = "E, MMMM dd 'at' hh:mm aa"
 private const val INSTANCE_IDS_FILE_NAME = "test"
@@ -667,6 +668,40 @@ practice 1 answer:
         return count
     }
 
+    data class SinglyLinkedListNode(val data: Int) {
+        var next: SinglyLinkedListNode? = null
+    }
+
+    fun mergeSortLinkedLists(head1: SinglyLinkedListNode?, head2: SinglyLinkedListNode?): SinglyLinkedListNode? {
+        if (head1 == null) {
+            return head2
+        }
+        if (head2 == null) {
+            return head1
+        }
+        var h1 = head1
+        var h2 = head2
+        val merged: SinglyLinkedListNode? = SinglyLinkedListNode(minOf(head1.data ?: 0, head2.data ?: 0))
+        var tail = merged
+        while (h1 != null && h2 != null) {
+            if (h1.data <= h2.data) {
+                tail?.next = h1
+                h1 = h1.next
+            } else {
+                tail?.next = h2
+                h2 = h2.next
+            }
+            tail = tail?.next
+        }
+        h1?.let {
+            tail?.next = h1
+        } ?: kotlin.run {
+            tail?.next = h2
+        }
+
+        return merged?.next
+    }
+
     // https://www.programcreek.com/2013/12/leetcode-solution-of-longest-palindromic-substring-java/
     fun longestPalindromeSubstr(str: String?): String? {
         if (str == null || str.length == 0) {
@@ -720,6 +755,20 @@ practice 1 answer:
             endIdx++
         }
         return s.substring(beginIdx + 1, endIdx)
+    }
+
+    fun rainWaterTrappingIterative(heights: IntArray): Int {
+        var volume = 0
+
+        for (i in heights.indices) {
+            val lMax = heights.slice(0 until i).max()
+            val rMax = heights.slice(i + 1 until heights.size).max()
+
+            val area = minOf(lMax ?: 0, rMax ?: 0) - heights[i]
+            volume += if (area > 0) area else 0
+        }
+
+        return volume
     }
 
     fun rainWaterTrappingDynamic(heights: IntArray): Int {

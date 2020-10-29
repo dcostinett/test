@@ -98,22 +98,23 @@ class Toptal {
     }
 
     val result = mutableListOf<List<Int>>()
-    private fun printCoinCombos(index: Int, denom: IntArray, target: Int, vals: IntArray) : List<List<Int>> {
+    private fun printCoinCombos(index: Int, coins: IntArray, target: Int, coinsInTarget: IntArray) : List<List<Int>> {
+
         if (target == 0) {
-            result.add(vals.toList())
-            println(vals.joinToString(" "))
+            result.add(coinsInTarget.toList())
+            println(coinsInTarget.joinToString(" "))
             return result
         }
 
-        if (index == denom.size) {
+        if (index == coins.size) {
             return result
         }
 
         var i = 0
-        while (i * denom[index] <= target) {
-            vals[index] = i
-            printCoinCombos(index + 1, denom, target - i * denom[index], vals)
-            vals[index] = 0
+        while (i * coins[index] <= target) {
+            coinsInTarget[index] = i // for each coin less than the target value
+            printCoinCombos(index + 1, coins, target - i * coins[index], coinsInTarget)
+            coinsInTarget[index] = 0
             i++
         }
 

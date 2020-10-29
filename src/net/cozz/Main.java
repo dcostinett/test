@@ -2102,6 +2102,44 @@ k=2;
         return target;
     }
 
+    public SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
+        if (head1 == null) {
+            return head2;
+        }
+        if (head2 == null) {
+            return head1;
+        }
+
+        SinglyLinkedListNode merged = new SinglyLinkedListNode(Math.min(head1.data, head2.data));
+        SinglyLinkedListNode walker = merged;
+        while (head1 != null && head2 != null) {
+            if (head1.data <= head2.data) {
+                walker.next = head1;
+                head1 = head1.next;
+            } else {
+                walker.next = head2;
+                head2 = head2.next;
+            }
+            walker = walker.next;
+        }
+        if (head1 != null) {
+            walker.next = head1;
+        }
+        if (head2 != null) {
+            walker.next = head2;
+        }
+
+        return merged.next;
+    }
+
+    static class SinglyLinkedListNode {
+        int data;
+        SinglyLinkedListNode next;
+
+        SinglyLinkedListNode(int data) {
+            this.data = data;
+        }
+    }
     /*
     Deque https://www.hackerrank.com/challenges/java-dequeue/problem
     read M arrays of N integers each and count maximum number of unique integers among all contiguous subarrays
