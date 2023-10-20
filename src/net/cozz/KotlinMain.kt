@@ -2083,9 +2083,9 @@ given starting code:
         candidates[0] = 0
 
         for (i in 1..change) {
-            coins.forEach {
-                if (it <= i) { // if the coin is less than the change amount
-                    candidates[i] = Math.min(candidates[i], 1 + candidates[i - it])
+            coins.forEach { coin ->
+                if (coin <= i) { // if the coin is less than the change amount
+                    candidates[i] = minOf(candidates[i], 1 + candidates[i - coin])
                 }
             }
         }

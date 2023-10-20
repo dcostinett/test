@@ -264,6 +264,20 @@ internal class KotlinMainTest {
     }
 
     @Test
+    fun `min coin count for change 4`() {
+        val main = KotlinMain()
+
+        assertThat(main.minimizeCoinCount(intArrayOf(1, 5, 10, 21, 25, 50), 63), CoreMatchers.`is`(3))
+    }
+
+    @Test
+    fun `min coin count for change 5`() {
+        val main = KotlinMain()
+
+        assertThat(main.minimizeCoinCount(intArrayOf(1, 5, 10, 25), 63), CoreMatchers.`is`(6))
+    }
+
+    @Test
     fun `test fibonacci tabulated`() {
         assertThat(KotlinMain().fiboTabulated(9), CoreMatchers.`is`(34))
     }

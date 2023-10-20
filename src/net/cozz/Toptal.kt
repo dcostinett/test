@@ -88,7 +88,7 @@ object Toptal {
 
         ways[0] = 1 // there's only 1 way to give 0 change
 
-        for (i in 0.until(coins.size)) { // for each coin
+        for (i in coins.indices) { // for each coin
             for (j in coins[i]..target) { // for each coin value less than target
                 ways[j] += ways[j - coins[i]] // add the value from previous sub problem (coin value)
             }
@@ -108,8 +108,6 @@ object Toptal {
                 ways[j] = ways[j]?.plus(ways[j - coins[i]]!!) // add the value from previous sub problem (coin value)
             }
         }
-
-        val (pp, ch) = "15.96;16.00".split(";")
 
        for (amount in valueMap.entries) {
            val amt = amount.key
@@ -225,7 +223,7 @@ object Change {
         }
     }
 
-    fun increment(array: IntArray, index: Int): IntArray {
+    private fun increment(array: IntArray, index: Int): IntArray {
         val clone = array.clone()
         clone[index]++
         return clone
@@ -241,7 +239,7 @@ object Change {
 
 
 internal object GetWays {
-    private fun getNumberOfWays(change: Long, coins: LongArray): Long {
+    private fun getNumberOfWays(change: Long, coins: IntArray): Long {
         // Create the ways array to 1 plus the amount
         // to stop overflow
         val ways = LongArray(change.toInt() + 1)
@@ -259,7 +257,7 @@ internal object GetWays {
                 if (coins[i] <= j) {
 
                     // Update the ways array
-                    ways[j] += ways[(j - coins[i]).toInt()]
+                    ways[j] += ways[(j - coins[i])]
                 }
             }
         }
@@ -269,13 +267,13 @@ internal object GetWays {
         return ways[change.toInt()]
     }
 
-    private fun printArray(coins: LongArray) {
+    private fun printArray(coins: IntArray) {
         for (i in coins) println(i)
     }
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val coins = longArrayOf(1, 5, 10)
+        val coins = intArrayOf(1, 5, 10)
         println("The Coins Array:")
         printArray(coins)
         println("Solution:")
@@ -284,8 +282,7 @@ internal object GetWays {
 }
 
 //from Geeks for Geeks: https://www.geeksforgeeks.org/coin-change-dp-7/
-
-internal object GFG {
+internal object GFGCoinChange {
     // Recursive function to count the number of distinct
     // ways to make the sum by using n coins
     fun count(
