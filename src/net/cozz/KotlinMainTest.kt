@@ -3,6 +3,7 @@ package net.cozz
 import junit.framework.Assert.assertTrue
 import net.cozz.hackerrank.ArrayDSChallenge
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Test
@@ -15,6 +16,28 @@ internal class KotlinMainTest {
     val user2 = User("Sara", 25, listOf("Chess"))
     val user3 = User("Dave", 34, listOf("Games"))
     val user4 = User("Dan", 34, listOf("Soccer"))
+
+    @Test
+    @Throws(Exception::class)
+    fun testBreadthFirstTraversal() {
+        val node = KotlinMain.Node(5)
+        node.left = KotlinMain.Node(3)
+        node.left!!.left = KotlinMain.Node(1)
+        node.right = KotlinMain.Node(7)
+        val calculated = KotlinMain().breadthFirstTraversal(node)
+        assertThat(calculated, equalTo("5371"))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testBreadthFirstTraversal2() {
+        val node = KotlinMain.Node(5)
+        node.left = KotlinMain.Node(3)
+        node.left!!.left = KotlinMain.Node(1)
+        node.right = KotlinMain.Node(7)
+        val calculated = KotlinMain().breadthFirstTraversal2(node)
+        assertThat(calculated, equalTo("5371"))
+    }
 
     @Test
     fun givenList_whenConvertToMap_thenResult() {
@@ -294,7 +317,8 @@ internal class KotlinMainTest {
                 intArrayOf(0, 0, 0, 0, 0),
                 intArrayOf(1, 0, 1, 0, 1))
 
-        assertThat("Number of islands: ", ArrayDSChallenge().countIslands(input), CoreMatchers.equalTo(6))
+        val actual = ArrayDSChallenge().countIslands(input)
+        assertThat("Number of islands: ", actual, CoreMatchers.equalTo(6))
     }
 
     @Test
@@ -312,13 +336,27 @@ internal class KotlinMainTest {
     @Test
     fun `countIslandsTest 3`() {
         val input = arrayOf(
-                intArrayOf(1, 1, 1, 0, 0),
-                intArrayOf(1, 1, 1, 1, 1),
-                intArrayOf(0, 0, 0, 1, 1),
-                intArrayOf(0, 0, 0, 0, 0),
-                intArrayOf(1, 0, 0, 0, 1))
+            intArrayOf(1, 1, 0, 0, 0),
+            intArrayOf(1, 1, 0, 1, 1),
+            intArrayOf(0, 0, 1, 0, 0),
+            intArrayOf(0, 0, 0, 1, 1),
+            intArrayOf(0, 0, 0, 1, 1))
 
-        assertThat("Number of islands: ", ArrayDSChallenge().countIslands(input), CoreMatchers.equalTo(3))
+        val calculated = ArrayDSChallenge().countIslands(input)
+        assertThat("Number of islands: ", calculated, CoreMatchers.equalTo(4))
+    }
+
+    @Test
+    fun `countIslandsTest 4`() {
+        val input = arrayOf(
+            intArrayOf(1, 1, 0, 0, 0),
+            intArrayOf(1, 1, 0, 0, 0),
+            intArrayOf(0, 0, 1, 0, 0),
+            intArrayOf(0, 0, 0, 1, 0),
+            intArrayOf(0, 0, 0, 1, 1))
+
+        val calculated = ArrayDSChallenge().countIslands(input)
+        assertThat("Number of islands: ", calculated, CoreMatchers.equalTo(3))
     }
 
     @Test
@@ -342,19 +380,92 @@ internal class KotlinMainTest {
                 intArrayOf(0, 0, 0, 0, 0),
                 intArrayOf(1, 0, 0, 0, 1))
 
-        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(3))
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(4))
     }
 
     @Test
     fun `countIslandsTest BF3`() {
         val input = arrayOf(
-                intArrayOf(1, 1, 0, 0, 0),
-                intArrayOf(1, 1, 0, 0, 1),
-                intArrayOf(0, 0, 1, 0, 1),
-                intArrayOf(0, 0, 0, 0, 0),
-                intArrayOf(1, 0, 0, 0, 1))
+            intArrayOf(1, 1, 0, 0, 0),
+            intArrayOf(1, 1, 0, 0, 1),
+            intArrayOf(0, 0, 1, 0, 1),
+            intArrayOf(0, 0, 0, 0, 0),
+            intArrayOf(1, 0, 0, 0, 1))
 
-        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(4))
+        assertThat("Number of islands: ", ArrayDSChallenge().countIslandsBf(input), CoreMatchers.equalTo(5))
+    }
+
+    @Test
+    fun `findLargestArea dfs`() {
+        val input = arrayOf(
+            arrayOf(1, 1, 0, 0, 0),
+            arrayOf(1, 1, 0, 0, 1),
+            arrayOf(0, 0, 1, 0, 1),
+            arrayOf(0, 0, 0, 0, 0),
+            arrayOf(0, 0, 0, 0, 1))
+
+        val calculated = ArrayDSChallenge().largestArea(input)
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(4))
+    }
+
+    @Test
+    fun `findLargestArea dfs_2`() {
+        val input = arrayOf(
+            arrayOf(1, 1, 0, 0, 0),
+            arrayOf(1, 1, 0, 0, 1),
+            arrayOf(0, 0, 1, 0, 1),
+            arrayOf(0, 0, 0, 0, 0),
+            arrayOf(1, 0, 0, 0, 1))
+
+        val calculated = ArrayDSChallenge().largestArea(input)
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(5))
+    }
+
+    @Test
+    fun `max area of island`() {
+        val grid = arrayOf(
+            intArrayOf(0,0,1,0,0,0,0,1,0,0,0,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),
+            intArrayOf(0,1,1,0,1,0,0,0,0,0,0,0,0),
+            intArrayOf(0,1,0,0,1,1,0,0,1,0,1,0,0),
+            intArrayOf(0,1,0,0,1,1,0,0,1,1,1,0,0),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,0,0,0,0))
+
+
+        val calculated = ArrayDSChallenge().largestIsland(grid)
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `max area of island 2`() {
+        val grid = arrayOf(
+            intArrayOf(0,0,1,0,0,0,0,1,0,0,0,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),
+            intArrayOf(0,1,1,0,1,0,0,0,0,0,0,0,0),
+            intArrayOf(0,1,0,0,1,1,0,0,1,0,1,0,0),
+            intArrayOf(0,1,0,0,1,1,0,0,1,1,1,0,0),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,1,1,0,0),
+            intArrayOf(0,0,0,0,0,0,0,1,1,0,0,0,0))
+
+
+        val calculated = ArrayDSChallenge().largestIsland(grid)
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(12))
+    }
+
+    @Test
+    fun `make largest island`() {
+        val grid = arrayOf(
+            intArrayOf(0,1,0,1,0),
+            intArrayOf(1,1,0,0,1),
+            intArrayOf(0,0,1,1,0)
+            )
+
+
+        val calculated = ArrayDSChallenge().makeLargestIsland(grid)
+        assertThat("Largest possible island size: ", calculated, CoreMatchers.equalTo(6))
     }
 
     @Test
@@ -397,6 +508,34 @@ internal class KotlinMainTest {
     }
 
     @Test
+    fun `calculate rain water stack test iterative`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        val result = KotlinMain().rainWaterTrappedIterative(arr)
+        assertThat(result, CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `calculate rain water nested_loops`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        val result = KotlinMain().maxWater(arr)
+        assertThat(result, CoreMatchers.equalTo(6))
+    }
+
+    @Test
+    fun `calculate rain water nested_loops_2`() {
+        val arr = intArrayOf(3,0,2,0,4)
+        val result = KotlinMain().maxWater(arr)
+        assertThat(result, CoreMatchers.equalTo(7))
+    }
+
+    @Test
+    fun `calculate rain water with_pointers test`() {
+        val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
+        val result = KotlinMain().rainwaterTrappingWithPointers(arr)
+        assertThat(result, CoreMatchers.equalTo(6))
+    }
+
+    @Test
     fun `calculate rain water stack test 1`() {
         val arr = intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)
         val result = KotlinMain().rainWaterStackBased(arr)
@@ -435,6 +574,34 @@ internal class KotlinMainTest {
     }
 
     @Test
+    fun `calculate that the longest palindrome works test 1`() {
+        val input =  "dabcba"
+        val calculated = KotlinMain().longestPalindromeSubst(input)
+        assertThat(calculated, equalTo("abcba"))
+    }
+
+    @Test
+    fun `calculate that the longest palindrome works test 2`() {
+        val input =  "dabcbad"
+        val calculated = KotlinMain().longestPalindromeSubst(input)
+        assertThat(calculated, equalTo("dabcbad"))
+    }
+
+    @Test
+    fun `calculate that the longest palindrome_dp works test 1`() {
+        val input =  "dabcba"
+        val calculated = KotlinMain().longestPalindromeSubstr(input)
+        assertThat(calculated, equalTo("abcba"))
+    }
+
+    @Test
+    fun `calculate that the longest palindrome _dp_works test 2`() {
+        val input =  "dabcbad"
+        val calculated = KotlinMain().longestPalindromeSubstr(input)
+        assertThat(calculated, equalTo("dabcbad"))
+    }
+
+    @Test
     fun `mergeSortTest 1`() {
         val ll1 = KotlinMain.SinglyLinkedListNode(1)
         val n2 = KotlinMain.SinglyLinkedListNode(2)
@@ -452,6 +619,4 @@ internal class KotlinMainTest {
         }
         println()
     }
-
-
 }

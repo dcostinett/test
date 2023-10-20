@@ -14,18 +14,88 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Logger
-import javax.swing.Spring
+import kotlin.math.max
+import kotlin.math.min
 
 const val SCHEDULE_DATE_FORMAT_FULL = "E, MMMM dd 'at' hh:mm aa"
 private const val INSTANCE_IDS_FILE_NAME = "test"
-private val LOGGER = Logger.getLogger(Main::class.java.name)
+private val LOGGER = Logger.getLogger(KotlinMain::class.java.name)
+
+fun main(args: Array<String>) {
+
+
+    println(Base64.getEncoder().encodeToString("RaceCar333!!".toByteArray()))
+
+    val kotlinMain = KotlinMain()
+
+    println(kotlinMain.revS("test"))
+
+    val br = BufferedReader(InputStreamReader(System.`in`))
+    val target = br.readLine().toInt()
+    var root: KotlinMain.Node? = null
+    if (target < 1) {
+        println("NIL")
+    } else {
+        val data = br.readLine()
+        val stringTokenizer = StringTokenizer(data)
+        val numbers: List<String> = ArrayList()
+        root = KotlinMain.Node(stringTokenizer.nextToken())
+        var node = root
+        while (stringTokenizer.hasMoreElements()) {
+            node!!.next = KotlinMain.Node(stringTokenizer.nextToken())
+            node = node.next
+        }
+        val targetNode = kotlinMain.nthToLast(root, target - 1)
+        if (targetNode == null) {
+            println("NIL")
+        } else {
+            println(targetNode.strData!!.trim { it <= ' ' })
+        }
+    }
+
+    if (true) System.exit(0)
+
+    LOGGER.info(kotlinMain.dateFormat.format(Date()))
+    kotlinMain.passByRrefTest()
+    // dequeMain();
+    kotlinMain.doFoodTest()
+    kotlinMain.arrayTests()
+    val forecastDate = Date()
+    val dayFormatter: DateFormat = SimpleDateFormat("EEE K a", Locale.US)
+    LOGGER.info(dayFormatter.format(forecastDate))
+    val timeFormatter: DateFormat = SimpleDateFormat("", Locale.US)
+    val logFiles = File(".")
+        .list { dir, name ->
+            LOGGER.info(dir.absolutePath)
+            LOGGER.info("Name = $name")
+            name.startsWith("test")
+        }
+    val sorted = Arrays.asList(*logFiles)
+    Collections.sort(sorted)
+    val numberFormat: NumberFormat = DecimalFormat("000")
+    var num = sorted[sorted.size - 1]
+        .substring(sorted[sorted.size - 1].indexOf("_") + 1).toLong()
+    val outPath = Paths.get(String.format("%s_%s", INSTANCE_IDS_FILE_NAME,
+        numberFormat.format(++num)))
+    try {
+        Files.copy(kotlinMain.createdInstanceIdsStore, Files.newOutputStream(outPath))
+    } catch (e: IOException) {
+        LOGGER.warning(e.message)
+    }
+    LOGGER.info(sorted[sorted.size - 1])
+    LOGGER.info(kotlinMain.removeDups(charArrayOf('a', 'a', 'b', 'c', 'c')))
+    LOGGER.info(kotlinMain.removeDups("TTEST"))
+    LOGGER.info(kotlinMain.reverseWords("this is a test"))
+    LOGGER.info(kotlinMain.revWords("this is a test"))
+    LOGGER.info("" + (kotlinMain.atoI("123") + 1))
+}
 
 class KotlinMain {
 
     val dateFormat: DateFormat = SimpleDateFormat(SCHEDULE_DATE_FORMAT_FULL)
-    private val createdInstanceIdsStore = Paths.get(INSTANCE_IDS_FILE_NAME)
+    val createdInstanceIdsStore = Paths.get(INSTANCE_IDS_FILE_NAME)
     val hs: MutableSet<String> = HashSet()
-    private val LOG = Logger.getLogger(Main::class.java.name)
+    private val LOG = Logger.getLogger(KotlinMain::class.java.name)
     var books = arrayOf(arrayOf("Moby Dick", "Herman Melville", "classic", "19.99", "Ishmael narrates the monomaniacal quest of Ahab, captain of the whaler Pequod, for revenge on the albino sperm whale Moby Dick"), arrayOf("Catcher In The Rye", "J. D. Salinger", "classic", "6.49", "The novel's protagonist Holden Caulfield has become an icon for teenage rebellion. The novel also deals with complex issues of identity, belonging, loss, connection, and alienation."), arrayOf("Ender's Game", "Orson Scott Card", "sci-fi", "8.20", "Ender's Game presents an imperiled mankind after two conflicts with the \"buggers\", an insectoid alien species. In preparation for an anticipated third invasion, children, including the novel's protagonist, Ender Wiggin, are trained from a very young age through increasingly difficult games including some in zero gravity, where Ender's tactical genius is revealed."), arrayOf("The Hobbit", "JRR Tolkien", "fantasy", "18.59", "The Hobbit follows the quest of home-loving hobbit Bilbo Baggins to win a share of the treasure guarded by the dragon, Smaug."))
 
     // find smallest array of matching degree -- degree defined as most frequently occurring integer in int[]
@@ -34,64 +104,14 @@ class KotlinMain {
     // write code to re-order a linked list, moving the last element to the 2nd element until there are only 2 elements
 
     @Throws(Exception::class)
-    fun main(args: Array<String>) {
-        val br = BufferedReader(InputStreamReader(System.`in`))
-        val target = br.readLine().toInt()
-        var root: Node? = null
-        if (target < 1) {
-            println("NIL")
-        } else {
-            val data = br.readLine()
-            val stringTokenizer = StringTokenizer(data)
-            val numbers: List<String> = ArrayList()
-            root = Node(stringTokenizer.nextToken())
-            var node = root
-            while (stringTokenizer.hasMoreElements()) {
-                node!!.next = Node(stringTokenizer.nextToken())
-                node = node.next
-            }
-            val targetNode = nthToLast(root, target - 1)
-            if (targetNode == null) {
-                println("NIL")
-            } else {
-                println(targetNode.strData!!.trim { it <= ' ' })
-            }
-        }
 
-        if (true) System.exit(0)
-        LOGGER.info(dateFormat.format(Date()))
-        passByRrefTest()
-        // dequeMain();
-        doFoodTest()
-        arrayTests()
-        val forecastDate = Date()
-        val dayFormatter: DateFormat = SimpleDateFormat("EEE K a", Locale.US)
-        LOGGER.info(dayFormatter.format(forecastDate))
-        val timeFormatter: DateFormat = SimpleDateFormat("", Locale.US)
-        val logFiles = File(".")
-                .list { dir, name ->
-                    LOGGER.info(dir.absolutePath)
-                    LOGGER.info("Name = $name")
-                    name.startsWith("test")
-                }
-        val sorted = Arrays.asList(*logFiles)
-        Collections.sort(sorted)
-        val numberFormat: NumberFormat = DecimalFormat("000")
-        var num = sorted[sorted.size - 1]
-                .substring(sorted[sorted.size - 1].indexOf("_") + 1).toLong()
-        val outPath = Paths.get(String.format("%s_%s", INSTANCE_IDS_FILE_NAME,
-                numberFormat.format(++num)))
-        try {
-            Files.copy(createdInstanceIdsStore, Files.newOutputStream(outPath))
-        } catch (e: IOException) {
-            LOGGER.warning(e.message)
+    fun revStr2(input: String): String {
+        val stringSplitArr = input.split(" ")
+        val builder = StringBuilder()
+        for (i in stringSplitArr.size - 1 downTo 0) {
+            builder.append(stringSplitArr[i]).append(" ")
         }
-        LOGGER.info(sorted[sorted.size - 1])
-        LOGGER.info(removeDups(charArrayOf('a', 'a', 'b', 'c', 'c')))
-        LOGGER.info(removeDups("TTEST"))
-        LOGGER.info(reverseWords("this is a test"))
-        LOGGER.info(revWords("this is a test"))
-        LOGGER.info("" + (atoI("123") + 1))
+        return builder.toString().trim()
     }
 
     fun revS(s: String?): String? {
@@ -130,7 +150,7 @@ class KotlinMain {
         val sc = Scanner(System.`in`)
         while (sc.hasNext()) {
             val input = sc.next()
-            println(processStrings(input))
+            println(processString(input))
         }
     }
 
@@ -143,7 +163,7 @@ class KotlinMain {
         return validValues
     }
 
-    private fun processStrings(input: String): Boolean {
+    private fun processString(input: String): Boolean {
         if (input.length % 2 != 0) {
             return false
         }
@@ -729,7 +749,7 @@ practice 1 answer:
     // also https://www.programcreek.com/2013/12/leetcode-solution-of-longest-palindromic-substring-java/
     // a simple algorithm
     fun longestPalindromeSubst(s: String?): String? {
-        if (s == null || s.length == 0) {
+        if (s.isNullOrEmpty()) {
             return s
         }
         var candidate = s.substring(0, 1)
@@ -761,11 +781,11 @@ practice 1 answer:
         var volume = 0
 
         for (i in heights.indices) {
-            val lMax = heights.slice(0 until i).max()
-            val rMax = heights.slice(i + 1 until heights.size).max()
+            val lMax = heights.slice(0 until i).maxOrNull() ?: 0
+            val rMax = heights.slice(i + 1 until heights.size).maxOrNull() ?: 0
 
-            val area = minOf(lMax ?: 0, rMax ?: 0) - heights[i]
-            volume += if (area > 0) area else 0
+            val area = minOf(lMax, rMax) - heights[i]
+            volume += area.coerceAtLeast(0)
         }
 
         return volume
@@ -777,7 +797,7 @@ practice 1 answer:
         val right = IntArray(heights.size + 1)
 
         left[0] = heights[0]
-        for (i in 1 until heights.size) {
+        for (i in 1 until heights.size) { // until is exclusive on the upper bound
             left[i] = maxOf(heights[i], left[i -1])
         }
 
@@ -798,22 +818,104 @@ practice 1 answer:
 
         val stack = Stack<Int>()
         heights.forEachIndexed { index, _ -> // forEachIndexed could be for (index in 0 until heights.size)
-            stack.push(index)
-            while (stack.isNotEmpty() && heights[index] > heights[stack.peek()]) {
-                val top = stack.pop()
+            while (stack.isNotEmpty() && heights[stack.peek()] < heights[index]) {
+                val top = heights[stack.pop()]
                 if (stack.isEmpty()) {
                     break
                 }
                 val distance = index - stack.peek() - 1 // distance between posts
-                val bound = minOf(heights[index], heights[stack.peek()]) - heights[top]
-                volume += distance * bound
+                val bound = minOf(heights[index], heights[stack.peek()]) - top
+                volume += (distance * bound.coerceAtLeast(0))
+            }
+            stack.push(index)
+        }
+
+        return volume
+    }
+
+    fun rainWaterTrappedIterative(heights: IntArray): Int {
+        var volume = 0
+
+        val maxLefts = IntArray(heights.size)
+        val maxRights = IntArray(heights.size)
+        val mins = IntArray(heights.size)
+
+        var currentMax = 0
+        heights.forEachIndexed { index, value ->
+            if (index == 0) {
+                maxLefts[index] = 0
+            } else {
+                maxLefts[index] = currentMax
+            }
+            if (value > currentMax) currentMax = value
+        }
+
+        currentMax = 0
+        heights.reversed().forEachIndexed { index, value ->
+            maxRights[heights.size - 1 - index] = currentMax
+
+            if (value > currentMax) currentMax = value
+        }
+
+        for (i in heights.indices) {
+            mins[i] = maxLefts[i].coerceAtMost(maxRights[i])
+        }
+
+        heights.forEachIndexed { index, value ->
+            volume += (mins[index] - value).coerceAtLeast(0)
+        }
+
+        return volume
+    }
+
+    fun rainwaterTrappingWithPointers(heights: IntArray): Int {
+        var volume = 0
+        var maxLeft = 0
+        var maxRight = 0
+
+        var leftIndex = 0
+        var rightIndex = heights.size - 1
+        maxLeft = heights[leftIndex]
+        maxRight = heights[rightIndex]
+
+        while (leftIndex < rightIndex) {
+            if (maxLeft < maxRight) {
+                leftIndex++
+                maxLeft = maxLeft.coerceAtLeast(heights[leftIndex])
+                volume += maxLeft - heights[leftIndex]
+            } else {
+                rightIndex--
+                maxRight = maxRight.coerceAtLeast(heights[rightIndex])
+                volume += maxRight - heights[rightIndex]
             }
         }
 
         return volume
     }
 
-    private fun doFoodTest() {}
+    fun maxWater(arr: IntArray): Int {
+        var volume = 0
+
+        for (i in 1 until arr.size - 1) {
+            // Find maximum element on its left
+            var left = arr[i]
+            for (j in 0 until i) {
+                left = max(left, arr[j])
+            }
+
+            // Find maximum element on its right
+            var right = arr[i]
+            for (j in i + 1 until arr.size) {
+                right = max(right, arr[j])
+            }
+
+            volume += (min(left, right) - arr[i]).coerceAtLeast(0)
+        }
+
+        return volume
+    }
+
+    fun doFoodTest() {}
     fun transform(input: String?): String {
         val toRemove = arrayOf("{b}", "{/b}")
         val replaceWith = arrayOf("<b>", "</b>")
@@ -1731,7 +1833,7 @@ given starting code:
         }
     }
 
-    private fun fibonacciTailRecursive(n: Int, accumulator: Int): Int {
+    fun fibonacciTailRecursive(n: Int, accumulator: Int): Int {
         return if (n == 0) {
             accumulator
         } else fibonacciTailRecursive(n - 1, n * accumulator)
@@ -1794,11 +1896,13 @@ given starting code:
     }
 
     var depthCount = 0
-    fun breadthFirstTraversal2(root: Node?) {
+    fun breadthFirstTraversal2(root: Node?): String {
         if (root == null) {
-            return
+            return ""
         }
-        val queue: Queue<Node?> = ArrayDeque()
+        val response = StringBuilder()
+//        val queue: Queue<Node?> = ArrayDeque() // ArrayDeque throws NPE if inserted element is null
+        val queue: Queue<Node?> = LinkedList() // LinkedList allows inserted elements to be null
         queue.add(root)
         depthCount++
         while (!queue.isEmpty()) {
@@ -1806,20 +1910,25 @@ given starting code:
                     ?: continue // poll differs from remove in that it will return null for empty queue, remove will throw
             depthCount++
             curr.print()
+            response.append(curr.data)
             queue.add(curr.left)
             queue.add(curr.right)
         }
+
+        return response.toString()
     }
 
-    fun breadthFirstTraversal(root: Node?) {
-        val queue: Queue<Node?> = LinkedList()
+    fun breadthFirstTraversal(root: Node?): String {
+        val queue: Queue<Node?> = ArrayDeque()
         if (root == null) {
-            return
+            return ""
         }
+        val response = StringBuilder()
         queue.add(root)
         while (!queue.isEmpty()) {
             val node = queue.remove() // remove will throw ex when queue is empty
             LOGGER.info("" + node!!.data)
+            response.append(node.data)
             if (node.left != null) {
                 queue.add(node.left)
             }
@@ -1827,6 +1936,8 @@ given starting code:
                 queue.add(node.right)
             }
         }
+
+        return response.toString()
     }
 
     fun revArr(chars: CharArray) { //        int j = chars.length - 1;
@@ -1871,6 +1982,7 @@ given starting code:
      * @return true iff i is a power of 2
      */
     fun isPowerOfTwo(i: Int): Boolean { // if more than 1 bit is set, return will be false
+        // use bitwise AND operation on the values
         return i and i - 1 == 0
     }
 

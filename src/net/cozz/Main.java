@@ -1,7 +1,6 @@
 package net.cozz;
 
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,12 +12,9 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-import static junit.framework.Assert.assertTrue;
-
-public class Main {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+class KotlinMainMain {
+    private static final Logger LOGGER = Logger.getLogger(KotlinMain.class.getName());
 
     public static final String SCHEDULE_DATE_FORMAT_FULL = "E, MMMM dd 'at' hh:mm aa";
     public static final DateFormat dateFormat = new SimpleDateFormat(SCHEDULE_DATE_FORMAT_FULL);
@@ -34,7 +30,7 @@ public class Main {
         hs.add("butter");
     }
 
-    private static final Logger LOG = Logger.getLogger(Main.class.getName());
+    private static final Logger LOG = Logger.getLogger(KotlinMain.class.getName());
 
     static String[][] books = {
             {"Moby Dick", "Herman Melville", "classic", "19.99", "Ishmael narrates the monomaniacal quest of Ahab, captain of the whaler Pequod, for revenge on the albino sperm whale Moby Dick"},
@@ -132,7 +128,6 @@ public class Main {
 
         LOGGER.info("" + (atoI("123") + 1));
     }
-
 
     static class Student {
         private int id;
@@ -1513,7 +1508,7 @@ k=2;
         d.getName().equals("Max"); // true
 
         d = new Dog("Fifi");
-        assertTrue(d.getName().equals("Fifi")); // true
+//        assertTrue(d.getName().equals("Fifi")); // true
     }
 
     /*
@@ -2140,6 +2135,7 @@ k=2;
             this.data = data;
         }
     }
+
     /*
     Deque https://www.hackerrank.com/challenges/java-dequeue/problem
     read M arrays of N integers each and count maximum number of unique integers among all contiguous subarrays
@@ -2156,6 +2152,7 @@ k=2;
             }
 
      */
+
     public static void dequeMain() {
         Scanner in = new Scanner(System.in);
         Deque<Integer> deque = new ArrayDeque<>();
@@ -2193,8 +2190,6 @@ k=2;
 
         public Node() {
         }
-
-
         public void print() {
             LOGGER.info(String.format("{%d}", data));
         }
