@@ -288,6 +288,26 @@ internal class KotlinMainTest {
     }
 
     @Test
+    fun `test fibonacci tabulated 3`() {
+        assertThat(KotlinMain().fiboTabulated(1), CoreMatchers.`is`(1))
+    }
+
+    @Test
+    fun `test fibonacci tabulated 4`() {
+        assertThat(KotlinMain().fiboTabulated(3), CoreMatchers.`is`(2))
+    }
+
+    @Test
+    fun `test fibonacci tabulated 5`() {
+        assertThat(KotlinMain().fiboTabulated(4), CoreMatchers.`is`(3))
+    }
+
+    @Test
+    fun `test fibonacci tabulated 6`() {
+        assertThat(KotlinMain().fiboTabulated(8), CoreMatchers.`is`(21))
+    }
+
+    @Test
     fun `test nested recursion`() {
         println(KotlinTree().nestedRecursionExample(95))
     }
@@ -651,4 +671,43 @@ internal class KotlinMainTest {
         }
         println()
     }
+
+    @Test
+    fun testConvertNtoM_1() {
+        val n = 10
+        val m = 20
+        val calculated = KotlinMain().convertNtoM(n,m)
+        assertThat(calculated, equalTo(1))
+    }
+
+    @Test
+    fun testConvertNtoM_2() {
+        val n = 10
+        val m = 19
+        val calculated = KotlinMain().convertNtoM(n,m)
+        assertThat(calculated, equalTo(2))
+    }
+
+    @Test
+    fun testConvertNtoM_2b() {
+        val n = 10
+        val m = 19
+        val subject = KotlinMain()
+        subject.operationsArray.fill(-1)
+
+        val calculated = subject.minOperations(n,m)
+        assertThat(calculated, equalTo(2))
+    }
+
+    @Test
+    fun testConvertNtoM_3() {
+        val n = 10
+        val m = 21
+        val subject = KotlinMain()
+        subject.operationsArray.fill(-1)
+
+        val calculated = subject.minOperations(n,m)
+        assertThat(calculated, equalTo(8))
+    }
+
 }

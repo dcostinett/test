@@ -1424,7 +1424,7 @@ given starting code:
 
     private fun convertNtoM(dp: IntArray, n: Int, m: Int): Int {
         if (n <= 0 || n >= dp.size) {
-            return 100000
+            return Int.MAX_VALUE
         }
         if (n == m) {
             return 0
@@ -1433,8 +1433,37 @@ given starting code:
             return dp[n]
         }
         dp[n] = Int.MAX_VALUE
-        dp[n] = 1 + Math.min(convertNtoM(dp, n * 2, m), convertNtoM(dp, n - 1, m))
+        dp[n] = 1 + minOf(convertNtoM(dp, n * 2, m), convertNtoM(dp, n - 1, m))
         return dp[n]
+    }
+
+    val operationsArray = IntArray(100000)
+    fun minOperations(k: Int, m: Int): Int {
+
+        // If k is either 0 or out of range
+        // then return max
+        if (k <= 0 || k >= 10000) return 1000000000
+
+        // If k = m then conversion is
+        // complete so return 0
+        if (k == m) return 0
+        operationsArray[k] = operationsArray[k]
+
+        // If it has been calculated earlier
+        if (operationsArray[k] != -1) return operationsArray[k]
+        operationsArray[k] = 1000000000
+
+        // Call for 2*k and k-1 and return
+        // the minimum of them. If k is even
+        // then it can be reached by 2*k operations
+        // and If k is odd then it can be reached
+        // by k-1 operations so try both cases
+        // and return the minimum of them
+        operationsArray[k] = (1 + minOf(
+            minOperations(2 * k, m),
+            minOperations(k - 1, m)
+        ))
+        return operationsArray[k]
     }
 
     var dp = IntArray(1000)
@@ -1636,19 +1665,6 @@ given starting code:
         }
     }
 
-    fun Permute(s: String) {
-        Permute("", s)
-    }
-
-    private fun Permute(prefix: String, s: String) {
-        if (s.length == 0) {
-            LOG.info(prefix)
-        }
-        for (i in 0 until s.length) {
-            Permute(prefix + s[i], noti(i, s))
-        }
-    }
-
     fun deleteDups(chars: CharArray): Int {
         Arrays.sort(chars)
         var dest = 0
@@ -1823,24 +1839,10 @@ given starting code:
 
     fun fibonacci(i: Int): Int {
         return when (i) {
-            1 -> {
-                0
-            }
-            2 -> {
-                1
-            }
+            1 -> 0
+            2 -> 1
             else -> fibonacci(i - 1) + fibonacci(i - 2)
         }
-    }
-
-    fun fibonacciTailRecursive(n: Int, accumulator: Int): Int {
-        return if (n == 0) {
-            accumulator
-        } else fibonacciTailRecursive(n - 1, n * accumulator)
-    }
-
-    fun fibonacciTailRecursive(n: Int): Int {
-        return fibonacciTailRecursive(n, 1)
     }
 
     fun fibonacciIteratively(i: Int): Int {
