@@ -404,42 +404,60 @@ internal class KotlinMainTest {
             arrayOf(0, 0, 0, 0, 0),
             arrayOf(0, 0, 0, 0, 1))
 
-        val calculated = ArrayDSChallenge().largestArea(input)
+        val calculated = ArrayDSChallenge().largestIsland(input)
         assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(4))
     }
 
     @Test
     fun `findLargestArea dfs_2`() {
         val input = arrayOf(
-            arrayOf(1, 1, 0, 0, 0),
+            arrayOf(1, 1, 0, 0, 1),
             arrayOf(1, 1, 0, 0, 1),
             arrayOf(0, 0, 1, 0, 1),
-            arrayOf(0, 0, 0, 0, 0),
+            arrayOf(0, 0, 0, 0, 1),
             arrayOf(1, 0, 0, 0, 1))
 
-        val calculated = ArrayDSChallenge().largestArea(input)
+        val calculated = ArrayDSChallenge().largestIsland(input)
         assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(5))
     }
 
     @Test
     fun `max area of island`() {
         val grid = arrayOf(
-            intArrayOf(0,0,1,0,0,0,0,1,0,0,0,0,0),
+            intArrayOf(1,1,1,0,0,0,0,1,0,0,0,0,0),
             intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),
             intArrayOf(0,1,1,0,1,0,0,0,0,0,0,0,0),
             intArrayOf(0,1,0,0,1,1,0,0,1,0,1,0,0),
             intArrayOf(0,1,0,0,1,1,0,0,1,1,1,0,0),
             intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,0),
-            intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),
-            intArrayOf(0,0,0,0,0,0,0,1,1,0,0,0,0))
-
+            intArrayOf(1,1,1,1,1,0,0,1,1,1,0,0,0),
+            intArrayOf(1,1,1,1,1,0,0,1,1,0,0,0,0))
 
         val calculated = ArrayDSChallenge().largestIsland(grid)
-        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(6))
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(10))
     }
 
     @Test
     fun `max area of island 2`() {
+        val grid = arrayOf(
+            intArrayOf(1,1,1,0,0,0,0,1,0,0,0,0,1),
+            intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,1),
+            intArrayOf(0,1,1,0,1,0,0,0,0,0,0,0,1),
+            intArrayOf(0,1,0,0,1,1,0,0,1,0,1,0,1),
+            intArrayOf(0,1,0,0,1,1,0,0,1,1,1,0,1),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,1),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,1),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,1),
+            intArrayOf(0,0,0,0,0,0,0,0,0,0,1,0,1),
+            intArrayOf(1,1,1,1,1,0,0,1,1,1,0,0,1),
+            intArrayOf(1,1,1,1,1,0,0,1,1,0,0,0,1))
+
+        val calculated = ArrayDSChallenge().largestIsland(grid)
+        assertThat("Largest island size: ", calculated, CoreMatchers.equalTo(11))
+    }
+
+    @Test
+    fun `max area of island 3`() {
         val grid = arrayOf(
             intArrayOf(0,0,1,0,0,0,0,1,0,0,0,0,0),
             intArrayOf(0,0,0,0,0,0,0,1,1,1,0,0,0),

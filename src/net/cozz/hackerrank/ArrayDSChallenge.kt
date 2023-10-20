@@ -48,31 +48,47 @@ class ArrayDSChallenge {
         return count
     }
 
-    fun largestArea(input: Array<Array<Int>>) : Int {
-        var largestArea = 0
+//    // this algorithm seems to wrap and count the adjoining land mass at the bottom...
+//    fun largestArea(input: Array<Array<Int>>) : Int {
+//        var largestArea = 0
+//
+//        for (i in 0.until(input.size)) {
+//            for (j in 0.until(input[0].size)) {
+//                if (input[i][j] == 1) {
+//                    largestArea += checkSurrounding(input, i, j)
+//                }
+//            }
+//        }
+//
+//        return largestArea
+//    }
+//
+//    private fun checkSurrounding(arr: Array<Array<Int>>, row: Int, col: Int) : Int {
+//        if (row < 0 || row >= arr.size || col < 0 || col >= arr[row].size || arr[row][col] == 0) {
+//            return 0
+//        }
+//
+//        arr[row][col] = 0
+//        checkSurrounding(arr, row + 1, col)
+//        checkSurrounding(arr, row - 1, col)
+//        checkSurrounding(arr, row, col + 1)
+//        checkSurrounding(arr, row, col - 1)
+//        return 1
+//    }
 
-        for (i in 0.until(input.size)) {
-            for (j in 0.until(input[0].size)) {
-                if (input[i][j] == 1) {
-                    largestArea += checkSurrounding(input, i, j)
+    fun largestIsland(grid: Array<Array<Int>>) : Int {
+        if (grid.isEmpty()) return 0
+
+        var max = 0
+        for (i in 0.until(grid.size)) {
+            for (j in 0.until(grid[0].size)) {
+                if (grid[i][j] == 1) {
+                    val area = dfs(grid, i, j, 0)
+                    max = area.coerceAtLeast(max)
                 }
             }
         }
-
-        return largestArea
-    }
-
-    private fun checkSurrounding(arr: Array<Array<Int>>, row: Int, col: Int) : Int {
-        if (row < 0 || row >= arr.size || col < 0 || col >= arr[row].size || arr[row][col] == 0) {
-            return 0
-        }
-
-        arr[row][col] = 0
-        checkSurrounding(arr, row + 1, col)
-        checkSurrounding(arr, row - 1, col)
-        checkSurrounding(arr, row, col + 1)
-        checkSurrounding(arr, row, col - 1)
-        return 1
+        return max
     }
 
     fun largestIsland(grid: Array<IntArray>) : Int {
@@ -82,7 +98,7 @@ class ArrayDSChallenge {
         for (i in 0.until(grid.size)) {
             for (j in 0.until(grid[0].size)) {
                 if (grid[i][j] == 1) {
-                    val area = dfs(grid, i, j, grid.size, grid[0].size, 0)
+                    val area = dfs(grid, i, j, 0)
                     max = area.coerceAtLeast(max)
                 }
             }
@@ -90,7 +106,7 @@ class ArrayDSChallenge {
         return max
     }
 
-    private fun dfs(arr: Array<IntArray>, row: Int, col: Int, rowSize: Int, columnSize: Int, area: Int) : Int {
+    private fun dfs(arr: Array<Array<Int>>, row: Int, col: Int, area: Int) : Int {
         var area = area
         if (row < 0 || row >= arr.size || col < 0 || col >= arr[row].size || arr[row][col] == 0) {
             return area
@@ -98,10 +114,25 @@ class ArrayDSChallenge {
 
         arr[row][col] = 0
         area++
-        area = dfs(arr, row + 1, col, rowSize, columnSize, area)
-        area = dfs(arr, row - 1, col, rowSize, columnSize, area)
-        area = dfs(arr, row, col + 1, rowSize, columnSize, area)
-        area = dfs(arr, row, col - 1, rowSize, columnSize, area)
+        area = dfs(arr, row + 1, col, area)
+        area = dfs(arr, row - 1, col, area)
+        area = dfs(arr, row, col + 1, area)
+        area = dfs(arr, row, col - 1, area)
+        return area
+    }
+
+    private fun dfs(arr: Array<IntArray>, row: Int, col: Int, area: Int) : Int {
+        var area = area
+        if (row < 0 || row >= arr.size || col < 0 || col >= arr[row].size || arr[row][col] == 0) {
+            return area
+        }
+
+        arr[row][col] = 0
+        area++
+        area = dfs(arr, row + 1, col, area)
+        area = dfs(arr, row - 1, col, area)
+        area = dfs(arr, row, col + 1, area)
+        area = dfs(arr, row, col - 1, area)
         return area
     }
 
